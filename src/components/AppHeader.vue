@@ -30,10 +30,7 @@
               </router-link>
             </li>
             <li>
-              <a
-                class="px-2 text-white"
-                href="#"
-                @click.prevent="userStore.signOut"
+              <a class="px-2 text-white" href="#" @click.prevent="signOut"
                 >Logout</a
               >
             </li>
@@ -45,7 +42,7 @@
 </template>
 
 <script>
-import { mapStores, mapWritableState } from "pinia";
+import { mapStores, mapWritableState, mapActions } from "pinia";
 import { useModalStore } from "@/stores/modal";
 import { useUserStore } from "@/stores/user";
 
@@ -56,10 +53,19 @@ export default {
     ...mapWritableState(useModalStore, ["isOpen"]),
   },
   methods: {
+    ...mapActions(useUserStore, {
+      userStoreSignOut: "signOut",
+    }),
     toggleAuthModal() {
       // this.modalStore.isOpen = !this.modalStore.isOpen;
       // console.log(this.modalStore.isOpen);
       this.isOpen = !this.isOpen;
+    },
+    signOut() {
+      this.userStoreSignOut();
+      if (this.$route.meta.requiresAuth) {
+        this.$router.push({ name: "home" });
+      }
     },
   },
 };
