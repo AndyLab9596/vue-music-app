@@ -131,10 +131,30 @@
 <script>
 // import { useUserStore } from "../stores/user";
 import UploadFile from "../components/UploadFile.vue";
+import { songsCollection, auth } from "../includes/firebase";
+
 export default {
   name: "ManageView",
   components: {
     UploadFile,
+  },
+  data() {
+    return {
+      songs: [],
+    };
+  },
+  async created() {
+    const snapshot = await songsCollection
+      .where("uid", "==", auth.currentUser.uid)
+      .get();
+
+    snapshot.forEach((document) => {
+      const song = {
+        ...document.data(),
+        docID: document.id,
+      };
+      this.songs.push(song);
+    });
   },
   // beforeRouteLeave(to, from, next) {
   //   this.$ref.upload.cancelUploads();
