@@ -58,7 +58,6 @@ export default {
   },
   async created() {
     this.getSongs();
-
     window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
@@ -69,7 +68,6 @@ export default {
         Math.round(scrollTop) + innerHeight === offsetHeight;
       if (bottomOfWindow) {
         this.getSongs();
-        console.log("bottom of window");
       }
     },
     async getSongs() {
