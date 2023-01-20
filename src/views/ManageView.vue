@@ -19,6 +19,7 @@
               :key="song.docID"
               :song="song"
               :updateSong="updateSong"
+              :removeSong="removeSong"
               :index="i"
             />
           </div>
@@ -62,6 +63,9 @@ export default {
     updateSong(i, values) {
       this.songs[i].modified_name = values.modified_name;
       this.songs[i].genre = values.genre;
+    },
+    removeSong(i) {
+      this.songs.splice(i, 1);
     },
   },
   // beforeRouteLeave(to, from, next) {
